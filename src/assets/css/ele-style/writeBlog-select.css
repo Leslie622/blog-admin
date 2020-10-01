@@ -1,0 +1,23 @@
+.selectTag.el-select {
+  width: 90%;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.selectTag.el-select .el-input input {
+  min-height: 40px;
+  border: none;
+}
+
+.selectTag.el-select .el-select__input {
+  height: 100%;
+  width: 100%;
+}
+
+.el-select-dropdown.is-multiple .el-select-dropdown__item.selected {
+  color: rgb(255, 199, 0);
+}
+
+.el-tag {
+  font-size: 13px;
+}

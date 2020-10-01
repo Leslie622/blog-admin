@@ -1,0 +1,65 @@
+.ManagementPG .el-table {
+  background-color: transparent;
+  min-height: 798px;
+}
+
+.ManagementPG .el-table th, .el-table tr {
+  background-color: transparent;
+}
+
+.ManagementPG .el-table .cell {
+  padding: 0;
+  text-align: center;
+  overflow: visible;
+}
+
+.ManagementPG .el-table .cell span {
+  width: 100%;
+}
+
+.ManagementPG .el-table__row {
+  height: 75px;
+}
+
+.ManagementPG .el-table__row:hover {
+  background-color: transparent;
+}
+
+.ManagementPG .el-tag {
+  width: 60px;
+  border: none;
+  font-size: 16px;
+  color: black;
+  background-color: transparent;
+}
+
+.ManagementPG .el-button {
+  border-radius: 10px;
+  outline: none;
+  font-size: 16px;
+  box-shadow: 3px 3px rgb(187, 187, 187);
+  transition: .01s;
+}
+
+.ManagementPG .el-button:focus, .ManagementPG .el-button:hover {
+  border: 1px solid #dcdfe6;
+  color: #606266;
+  background-color: white;
+}
+
+.ManagementPG .el-button:active, .ManagementPG .el-button--danger:active {
+  box-shadow: none;
+  transform: translate(3px, 3px);
+}
+
+.ManagementPG .el-button--danger:focus, .ManagementPG .el-button--danger:hover {
+  border-color: #f56c6c;
+  color: #fff;
+  background: #f56c6c;
+}
+
+.ManagementPG .el-button--primary:focus, .ManagementPG .el-button--primary:hover {
+  border: 1px solid #409eff;
+  color: white;
+  background-color: #409eff;
+}

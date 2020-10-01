@@ -1,0 +1,25 @@
+.articlePagination.el-pagination.is-background .btn-next span, .articlePagination.el-pagination.is-background .btn-prev span {
+  padding: 0 10px;
+  line-height: 38px;
+}
+
+.articlePagination.el-pagination.is-background .btn-next, .articlePagination.el-pagination.is-background .btn-prev {
+  border-radius: 5px;
+  transition: all .3s;
+}
+
+.articlePagination.el-pagination.is-background .btn-next:hover, .articlePagination.el-pagination.is-background .btn-prev:hover{
+  color: red;
+}
+
+.el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li {
+  min-width: 40px;
+  height: 38px;
+  margin: 0 8px;
+  line-height: 38px;
+  border-radius: 5px;
+}
+
+.articlePagination.el-pagination.is-background .el-pager li:not(.disabled).active {
+  background-color: #00acac;
+}

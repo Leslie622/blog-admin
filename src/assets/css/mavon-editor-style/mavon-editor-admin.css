@@ -1,0 +1,37 @@
+/* 管理页样式 */
+
+.mavonEditor.v-note-wrapper .v-note-op .v-left-item .op-icon {
+  font-size: 15px;
+}
+
+.mavonEditor.v-note-wrapper .v-note-panel {
+  flex-direction: row-reverse;
+}
+
+.mavonEditor .v-note-op {
+  justify-content: space-between;
+  flex-direction: row-reverse;
+}
+
+.mavonEditor.v-note-wrapper .v-note-op .v-left-item, .mavonEditor.v-note-wrapper .v-note-op .v-right-item {
+  flex: none;
+  padding: 0 5px;
+}
+
+.mavonEditor .v-note-show {
+  border-right: 1px solid rgb(229, 229, 229);
+}
+
+/* 内容显示样式 */
+
+.markdown-body.markdown-body code {
+  padding: 2px;
+  border-radius: 3px;
+  color: #c7254e;
+}
+
+.markdown-body.markdown-body blockquote {
+  padding: 5px;
+  border-radius: 0 3px 3px 0;
+  background-color: #eef0f4;
+}

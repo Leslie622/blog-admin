@@ -1,0 +1,22 @@
+@import "./normalize/normalize.css";
+
+@font-face {
+  font-family: "ios7";
+  src: url(../font/ios7.ttf);
+}
+
+@font-face {
+  font-family: "幼圆";
+  src: url(../font/youyuan.TTF);
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  background: #e4e8e9 url(../img/bg/adminBg.jpg) repeat;
+  overflow: hidden;
+  user-select: none;
+}
+
+.router-link-exact-active, .router-link-active ,a{
+  color: #000;
+}
