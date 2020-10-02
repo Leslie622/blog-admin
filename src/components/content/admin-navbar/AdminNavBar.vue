@@ -60,7 +60,7 @@ export default {
 }
 
 .menuRouterLink.router-link-active {
-  background: url("../../../assets/img/bg/adminTabActiveBg.png") 100% 100%
+  background: url("~assets/img/bg/adminTabActiveBg.png") 100% 100%
     repeat;
 }
 

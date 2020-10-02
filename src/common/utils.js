@@ -1,4 +1,4 @@
-import { Notification } from "element-ui";
+import { Notification,Message } from "element-ui";
 import { request } from "network/request";
 
 // 时间格式

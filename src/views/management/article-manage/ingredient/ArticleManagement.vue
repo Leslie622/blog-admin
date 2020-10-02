@@ -116,7 +116,7 @@ export default {
     // 查看详情
     viewDetails(row) {
       let Detail = this.$router.resolve({
-        path: "/admin.html/Detail",
+        path: "/Detail",
         query: { id: row.id },
       });
       window.open(Detail.href, "_blank");
