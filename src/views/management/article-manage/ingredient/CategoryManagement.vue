@@ -71,6 +71,7 @@ export default {
         method: "get",
         url: `/blog/category/query?user_id=${this.user_id}`,
       }).then((res) => {
+        console.log(res);
         this.tableData = res.data.data;
       });
     },
@@ -82,7 +83,7 @@ export default {
     deleteRow(index, rows) {
       this.openRemovePG(index, rows);
     },
-    //查看
+    //查看 
     viewTheCategory(row) {
       this.$bus.$emit("viewTheCategory", row.id);
     },

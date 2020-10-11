@@ -6,9 +6,9 @@
     >
       <mavon-editor
         v-model="blogData.blogContent"
-        class="mavonEditor"
+        class="mavonEditor articleContent markdown-body" 
         previewBackground="fff"
-        codeStyle="tomorrow"
+        codeStyle="atelier-cave-dark"
         ref="md"
       />
     </transition>
