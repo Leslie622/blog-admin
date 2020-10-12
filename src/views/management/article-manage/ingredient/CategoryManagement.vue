@@ -16,7 +16,7 @@
       <el-table-column label="文章数量" width="160">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
-            <el-tag size="medium">{{ scope.row.blog.count }}</el-tag>
+            <el-tag size="medium">{{ articleTotal(scope.row.blog) }}</el-tag>
           </div>
         </template>
       </el-table-column>
@@ -50,6 +50,7 @@ import { request } from "network/request";
 
 export default {
   name: "",
+  // scope.row.blog.count
   data() {
     return {
       tableData: [],
@@ -66,6 +67,13 @@ export default {
     openRedactPG,
     openRemovePG,
     openAddPG,
+    articleTotal(obj) {
+      if (obj === null) {
+        return 0;
+      } else {
+        return obj.count;
+      }
+    },
     requestAllData() {
       request({
         method: "get",
@@ -83,7 +91,7 @@ export default {
     deleteRow(index, rows) {
       this.openRemovePG(index, rows);
     },
-    //查看 
+    //查看
     viewTheCategory(row) {
       this.$bus.$emit("viewTheCategory", row.id);
     },
@@ -102,8 +110,8 @@ export default {
 .articleCategor {
   display: flex;
   justify-content: center;
-  min-width: 520px;
   margin-right: 10px;
+  min-width: 520px;
   border-radius: 20px;
   font-family: 幼圆;
   text-align: center;
