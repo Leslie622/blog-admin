@@ -13,10 +13,10 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="分类ID" width="160">
+      <el-table-column label="文章数量" width="160">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
-            <el-tag size="medium">{{ scope.row.id }}</el-tag>
+            <el-tag size="medium">{{ scope.row.blog.count }}</el-tag>
           </div>
         </template>
       </el-table-column>

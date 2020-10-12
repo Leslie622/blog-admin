@@ -30,7 +30,7 @@
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button size="mini" @click="">编辑</el-button>
-          <el-button size="mini" type="danger" @click.native.prevent=""
+          <el-button size="mini" type="danger" @click="deleteArticle(scope.row)"
             >删除</el-button
           >
         </template>
@@ -120,6 +120,18 @@ export default {
         query: { id: row.id },
       });
       window.open(Detail.href, "_blank");
+    },
+    //删除文章
+    deleteArticle(row) {
+      request({
+        method: "post",
+        url: "/blog/delete",
+        data: {
+          id: row.id,
+        },
+      }).then((res) => {
+        console.log(res);
+       });
     },
   },
 };
