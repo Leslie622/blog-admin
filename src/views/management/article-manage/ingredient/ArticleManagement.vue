@@ -29,7 +29,9 @@
       </el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button size="mini" @click="">编辑</el-button>
+          <el-button size="mini" @click="editArticle(scope.row)"
+            >编辑</el-button
+          >
           <el-button size="mini" type="danger" @click="deleteArticle(scope.row)"
             >删除</el-button
           >
@@ -53,6 +55,7 @@
 </template>
  
 <script>
+import { aa } from "common/utils";
 import { request } from "network/request";
 
 export default {
@@ -73,6 +76,7 @@ export default {
     this.viewTheCategory();
   },
   methods: {
+    aa,
     basedRendering() {
       request({
         method: "get",
@@ -123,15 +127,15 @@ export default {
     },
     //删除文章
     deleteArticle(row) {
-      request({
-        method: "post",
-        url: "/blog/delete",
-        data: {
-          id: row.id,
-        },
-      }).then((res) => {
-        console.log(res);
-       });
+      this.openRemovePG_article(row);
+    },
+    editArticle(data) {
+      //跳转编辑页
+      this.$store.commit("saveArticleEditData", data);
+      this.$bus.$emit("editArticle");
+      this.$router.push({
+        path: "/WriteBlog",
+      });
     },
   },
 };

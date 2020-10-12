@@ -1,4 +1,4 @@
-import { Notification,Message } from "element-ui";
+import { Notification, Message } from "element-ui";
 import { request } from "network/request";
 
 // 时间格式
@@ -92,7 +92,7 @@ export function openRemovePG(index, rows) {
             id: rows[index].id
           }
         }).then((res) => {
-          //添加成功后更新数据
+          //删除成功后更新数据
           if (res.data.code === 200) {
             request({
               method: "get",
@@ -105,6 +105,47 @@ export function openRemovePG(index, rows) {
               })
             });
           }
+        });
+        done();
+      } else {
+        done();
+      }
+    },
+  }).catch(() => {
+  });;
+}
+
+export function openRemovePG_article(row) {
+  this.$confirm("此操作将删除该文章, 是否删除?", "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+    beforeClose: (action, instance, done) => {
+      if (action === "confirm") {
+        //确定后，删除数据
+        request({
+          method: "post",
+          url: "/blog/delete",
+          data: {
+            id: row.id,
+          },
+        }).then(() => {
+          console.log(row);
+          request({
+            method: "get",
+            url: `/blog/query/withcategory?cate_id=${row.cate_id}&pageNum=1&pageSize=10`,
+          }).then((res) => {
+            this.articleList = res.data.data;
+            //刷新分页器
+            this.isPagination = false;
+            this.$nextTick(() => {
+              this.isPagination = true;
+            });
+            Message({
+              message: "删除成功",
+              type: "success"
+            })
+          });
         });
         done();
       } else {

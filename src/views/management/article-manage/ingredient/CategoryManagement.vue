@@ -50,7 +50,6 @@ import { request } from "network/request";
 
 export default {
   name: "",
-  // scope.row.blog.count
   data() {
     return {
       tableData: [],
@@ -79,7 +78,6 @@ export default {
         method: "get",
         url: `/blog/category/query?user_id=${this.user_id}`,
       }).then((res) => {
-        console.log(res);
         this.tableData = res.data.data;
       });
     },

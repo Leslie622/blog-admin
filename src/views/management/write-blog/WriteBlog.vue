@@ -6,7 +6,7 @@
     >
       <mavon-editor
         v-model="blogData.blogContent"
-        class="mavonEditor articleContent markdown-body" 
+        class="mavonEditor articleContent markdown-body"
         previewBackground="fff"
         codeStyle="atelier-cave-dark"
         ref="md"
@@ -18,7 +18,7 @@
     >
       <div class="sidebar">
         <div class="operation">
-          <div class="save btn">保存草稿</div>
+          <div class="save btn">确认更改</div>
           <div class="issue btn" @click="issue">发布博客</div>
         </div>
         <div class="blogTitleContent">
@@ -98,6 +98,7 @@ export default {
         blogContentHTML: "",
         blogTags: "",
         blogPutoutDate: "",
+        blogID: "",
         blogCategoryID: "",
       },
       category: null,
@@ -118,7 +119,6 @@ export default {
           value: "Webpack",
         },
       ],
-      blogDataList: [],
       isTaghintTextAnimation: false,
       isCategoryhintTextAnimation: false,
     };
@@ -130,6 +130,10 @@ export default {
     }).then((res) => {
       this.category = res.data.data;
     });
+    this.blogData.blogContent = this.$store.state.articleEdit_data.content;
+    this.blogData.blogTitle = this.$store.state.articleEdit_data.title;
+    this.blogData.blogID = this.$store.state.articleEdit_data.id;
+    this.blogData.blogCategoryID = this.$store.state.articleEdit_data.cate_id;
   },
   methods: {
     issue() {
@@ -239,9 +243,9 @@ export default {
 }
 
 .blogTitleInput {
+  padding: 0 10px;
   width: 85%;
   height: 40px;
-  padding: 0 10px;
   border: none;
   border-radius: 10px;
   outline: none;

@@ -1,5 +1,6 @@
 .ManagementPG .el-table {
   background-color: transparent;
+  cursor: pointer;
   min-height: 798px;
 }
 
