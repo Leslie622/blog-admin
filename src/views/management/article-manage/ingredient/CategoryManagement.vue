@@ -113,8 +113,8 @@ export default {
   border-radius: 20px;
   font-family: 幼圆;
   text-align: center;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
-  background-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .2);
+  background-color: rgba(255, 255, 255, .4);
   overflow: hidden;
 }
 
@@ -135,4 +135,5 @@ export default {
   box-shadow: none;
   transform: translate(3px, 3px);
 }
+
 </style>

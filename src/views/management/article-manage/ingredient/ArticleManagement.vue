@@ -76,7 +76,6 @@ export default {
     this.viewTheCategory();
   },
   methods: {
-    aa,
     basedRendering() {
       request({
         method: "get",

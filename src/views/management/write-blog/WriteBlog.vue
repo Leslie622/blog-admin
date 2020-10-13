@@ -18,7 +18,7 @@
     >
       <div class="sidebar">
         <div class="operation">
-          <div class="save btn">确认更改</div>
+          <div class="save btn" @click="modify">确认更改</div>
           <div class="issue btn" @click="issue">发布博客</div>
         </div>
         <div class="blogTitleContent">
@@ -87,6 +87,7 @@
 <script>
 import { formatDateTime, deepClone } from "common/utils";
 import { request } from "network/request";
+import { Message } from "element-ui";
 
 export default {
   name: "",
@@ -130,15 +131,18 @@ export default {
     }).then((res) => {
       this.category = res.data.data;
     });
-    this.blogData.blogContent = this.$store.state.articleEdit_data.content;
-    this.blogData.blogTitle = this.$store.state.articleEdit_data.title;
-    this.blogData.blogID = this.$store.state.articleEdit_data.id;
-    this.blogData.blogCategoryID = this.$store.state.articleEdit_data.cate_id;
+    if (this.$store.state.articleEdit_data) {
+      this.blogData.blogContent = this.$store.state.articleEdit_data.content;
+      this.blogData.blogTitle = this.$store.state.articleEdit_data.title;
+      this.blogData.blogID = this.$store.state.articleEdit_data.id;
+      this.blogData.blogCategoryID = this.$store.state.articleEdit_data.cate_id;
+    }
+  },
+  beforeDestroy() {
+    this.$store.state.articleEdit_data = null;
   },
   methods: {
     issue() {
-      // 储存markdown的HTML格式
-      this.blogData.blogContentHTML = this.$refs.md.d_render;
       //发送文章数据到后端
       request({
         method: "post",
@@ -147,10 +151,34 @@ export default {
           user_id: this.$store.state.user_id,
           cate_id: this.blogData.blogCategoryID,
           title: this.blogData.blogTitle,
-          content: this.blogData.blogContentHTML,
+          content: this.blogData.blogContent,
         },
       }).then((res) => {
-        console.log(res);
+        if (res.data.code === 200) {
+          Message({
+            message: "发布成功",
+            type: "success",
+          });
+        }
+      });
+    },
+    modify() {
+      request({
+        method: "post",
+        url: "/blog/update",
+        data: {
+          id: this.blogData.blogID,
+          cate_id: this.blogData.blogCategoryID,
+          title: this.blogData.blogTitle,
+          content: this.blogData.blogContent,
+        },
+      }).then((res) => {
+        if (res.data.code === 200) {
+          Message({
+            message: "更改成功",
+            type: "success",
+          });
+        }
       });
     },
   },
