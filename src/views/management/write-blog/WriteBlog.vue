@@ -127,7 +127,7 @@ export default {
   created() {
     //请求分类数据
     request({
-      url: `/blog/category/query?user_id=${this.$store.state.user_id}`,
+      url: `/blog/category/query?user_id=${+window.localStorage.getItem("userID")}`,
     }).then((res) => {
       this.category = res.data.data;
     });
@@ -148,7 +148,7 @@ export default {
         method: "post",
         url: "/blog/create",
         data: {
-          user_id: this.$store.state.user_id,
+          user_id: +window.localStorage.getItem("userID"),
           cate_id: this.blogData.blogCategoryID,
           title: this.blogData.blogTitle,
           content: this.blogData.blogContent,

@@ -58,7 +58,7 @@ export default {
   },
   created() {
     //获取 - 用户ID
-    this.user_id = this.$store.state.user_id;
+    this.user_id = +window.localStorage.getItem("userID");
     //请求 - 分类数据
     this.requestAllData();
   },

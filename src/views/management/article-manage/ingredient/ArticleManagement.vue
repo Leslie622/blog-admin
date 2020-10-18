@@ -55,7 +55,7 @@
 </template>
  
 <script>
-import { aa } from "common/utils";
+import { openRemovePG_article } from "common/utils";
 import { request } from "network/request";
 
 export default {
@@ -76,10 +76,11 @@ export default {
     this.viewTheCategory();
   },
   methods: {
+    openRemovePG_article,
     basedRendering() {
       request({
         method: "get",
-        url: `/blog/category/query?user_id=${this.$store.state.user_id}`,
+        url: `/blog/category/query?user_id=${+window.localStorage.getItem("userID")}`,
       }).then((res) => {
         this.cate_ID = res.data.data[0].id;
         //获取第一个分类的数据

@@ -36,8 +36,8 @@ export function LoginRequest() {
     },
   }).then((res) => {
     if (res.data.code === 200) {
-      //保存用户id到vuex
-      this.$store.commit("saveUserId", res.data.data.id);
+      //保存用户id到本地
+      window.localStorage.setItem("userID",res.data.data.id)
       this.$router.push({ path: '/Management' });
     } else {
       Notification({
@@ -181,7 +181,7 @@ export function openRedactPG(index, row) {
           url: "/blog/category/update",
           data: {
             id: row.id,
-            user_id: this.$store.state.user_id,
+            user_id: +window.localStorage.getItem("userID"),
             name: document.querySelector(".categoryNameInput").value,
             description: document.querySelector(".categoryDescriptionInput").value,
           }
@@ -233,7 +233,7 @@ export function openAddPG() {
           method: "post",
           url: "/blog/category/create",
           data: {
-            user_id: this.$store.state.user_id,
+            user_id: +window.localStorage.getItem("userID"),
             name: document.querySelector(".categoryNameInput").value,
             description: document.querySelector(".categoryDescriptionInput").value,
           },
