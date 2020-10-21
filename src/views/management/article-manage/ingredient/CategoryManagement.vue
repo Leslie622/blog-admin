@@ -16,7 +16,7 @@
       <el-table-column label="文章数量" width="160">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
-            <el-tag size="medium">{{ articleTotal(scope.row.blog) }}</el-tag>
+            <el-tag size="medium">{{ scope.row.blogs.length }}</el-tag>
           </div>
         </template>
       </el-table-column>
@@ -66,13 +66,6 @@ export default {
     openRedactPG,
     openRemovePG,
     openAddPG,
-    articleTotal(obj) {
-      if (obj === null) {
-        return 0;
-      } else {
-        return obj.count;
-      }
-    },
     requestAllData() {
       request({
         method: "get",
@@ -113,8 +106,8 @@ export default {
   border-radius: 20px;
   font-family: 幼圆;
   text-align: center;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .2);
-  background-color: rgba(255, 255, 255, .4);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.4);
   overflow: hidden;
 }
 
@@ -135,5 +128,4 @@ export default {
   box-shadow: none;
   transform: translate(3px, 3px);
 }
-
 </style>

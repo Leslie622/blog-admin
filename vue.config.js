@@ -11,7 +11,19 @@ module.exports = {
         "store": "@/store",
         "views": "@/views",
       }
-    }
+    },
+    // devServer: {
+    //   proxy: {
+    //     '/api': {
+    //       target: 'http://192.168.31.165:8080/land/',
+    //       changeOrigin: true,
+    //       ws: true,
+    //       pathRewrite: {
+    //         '^/api': ''
+    //       },
+    //     }
+    //   },
+    // }
   },
 }
 

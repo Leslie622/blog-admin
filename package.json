@@ -11,6 +11,7 @@
     "axios": "^0.20.0",
     "core-js": "^3.6.5",
     "element-ui": "^2.13.2",
+    "highlight.js": "^10.3.1",
     "mavon-editor": "^2.9.0",
     "vue": "^2.6.11",
     "vue-router": "^3.4.5",

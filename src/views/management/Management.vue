@@ -1,21 +1,20 @@
 <template>
   <div>
     <router-view />
-     <admin-nav-bar></admin-nav-bar>
+    <admin-nav-bar></admin-nav-bar>
   </div>
 </template>
- 
+
 <script>
-import adminNavBar from "components/content/admin-navbar/AdminNavBar"
+import adminNavBar from "components/content/admin-navbar/AdminNavBar";
 
 export default {
-  name:'',
-  components:{
+  name: "",
+  components: {
     adminNavBar,
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
-
 </style>

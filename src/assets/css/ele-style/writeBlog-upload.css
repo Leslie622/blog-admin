@@ -1,0 +1,8 @@
+.upload-cover .el-upload-dragger {
+  width: 340px;
+  height: 130px;
+}
+
+.upload-cover .el-icon-upload {
+  margin: 20px 0;
+}

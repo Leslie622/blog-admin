@@ -27,7 +27,7 @@
             class="blogTitleInput"
             v-model="blogData.blogTitle"
           />
-          <div class="hintText">博客标题</div>
+          <div class="hintText">标题</div>
         </div>
         <div class="blogTags">
           <el-select
@@ -50,7 +50,7 @@
             class="hintText"
             :class="isTaghintTextAnimation ? 'isTaghintTextAnimation' : ''"
           >
-            博客标签
+            标签
           </div>
         </div>
         <div class="blogCategory">
@@ -76,8 +76,38 @@
               isCategoryhintTextAnimation ? 'isCategoryhintTextAnimation' : ''
             "
           >
-            博客分类
+            分类
           </div>
+        </div>
+        <div class="blogAbstractContent">
+          <textarea
+            type="text"
+            class="blogAbstractInput"
+            v-model="blogData.blogAbstract"
+          />
+          <div class="hintText">描述</div>
+        </div>
+        <div class="blogUploadContent">
+          <!-- <el-upload
+            class="upload-cover"
+            drag
+            action="https://4xiaer.com:8001/land/file/uploads"
+            :on-success="uploadCover"
+          >
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">
+              将文件拖到此处，或<em>点击上传</em>
+            </div>
+            <div class="el-upload__tip" slot="tip">
+              只能上传jpg/png/gif/jpeg文件，且不超过10MB
+            </div>
+          </el-upload> -->
+          <input
+            type="file"
+            accept=".png, .jpg, .gif, .jpeg"
+            @change="uploadCover"
+          />
+          <div class="hintText">封面图片</div>
         </div>
       </div>
     </transition>
@@ -96,11 +126,11 @@ export default {
       blogData: {
         blogTitle: "",
         blogContent: "",
-        blogContentHTML: "",
-        blogTags: "",
-        blogPutoutDate: "",
+        blogTags: [],
         blogID: "",
         blogCategoryID: "",
+        blogAbstract: "",
+        blogCover: "",
       },
       category: null,
       tags: [
@@ -127,7 +157,9 @@ export default {
   created() {
     //请求分类数据
     request({
-      url: `/blog/category/query?user_id=${+window.localStorage.getItem("userID")}`,
+      url: `/blog/category/query?user_id=${+window.localStorage.getItem(
+        "userID"
+      )}`,
     }).then((res) => {
       this.category = res.data.data;
     });
@@ -136,6 +168,8 @@ export default {
       this.blogData.blogTitle = this.$store.state.articleEdit_data.title;
       this.blogData.blogID = this.$store.state.articleEdit_data.id;
       this.blogData.blogCategoryID = this.$store.state.articleEdit_data.cate_id;
+      this.blogData.blogTags = this.$store.state.articleEdit_data.tag;
+      this.blogData.blogAbstract = this.$store.state.articleEdit_data.abs;
     }
   },
   beforeDestroy() {
@@ -152,6 +186,9 @@ export default {
           cate_id: this.blogData.blogCategoryID,
           title: this.blogData.blogTitle,
           content: this.blogData.blogContent,
+          abs: this.blogData.blogAbstract,
+          tag: this.blogData.blogTags,
+          cover: this.blogData.blogCover,
         },
       }).then((res) => {
         if (res.data.code === 200) {
@@ -171,6 +208,9 @@ export default {
           cate_id: this.blogData.blogCategoryID,
           title: this.blogData.blogTitle,
           content: this.blogData.blogContent,
+          abs: this.blogData.blogAbstract,
+          tag: this.blogData.blogTags,
+          cover: this.blogData.blogCover,
         },
       }).then((res) => {
         if (res.data.code === 200) {
@@ -181,6 +221,47 @@ export default {
         }
       });
     },
+    MultiFileUpload(oData) {
+      console.log(oData);
+      request({
+        method: "post",
+        url: "https://4xiaer.com:8001/land/file/uploads",
+        data: oData,
+      })
+        .then((res) => {
+          this.blogData.blogCover = res.data.data[0];
+        })
+        .catch((err) => {
+          Message({
+            message: "上传失败",
+            type: "error",
+          });
+        });
+    },
+    uploadCover(event) {
+      let e = window.event || event;
+      const oFile = e.target.files[0];
+      const imgMaxSize = 1024 * 1024 * 10;
+      const fileType = oFile.name.substr(oFile.name.lastIndexOf(".") + 1);
+      if (["jpeg", "jpg", "gif", "png"].indexOf(fileType) < 0) {
+        Message({
+          message: "只支持.jpeg .jpg  .gif .png格式文件",
+          type: "error",
+        });
+        return;
+      }
+      if (oFile.size > imgMaxSize) {
+        Message({
+          message: "文件最大为10MB",
+          type: "error",
+        });
+        return;
+      }
+      let oData = new FormData();
+      oData.append("files[]", oFile);
+      //调用上传接口
+      this.MultiFileUpload(oData);
+    },
   },
 };
 </script>
@@ -189,6 +270,7 @@ export default {
 /* 编辑器样式 */
 @import "~assets/css/mavon-editor-style/mavon-editor.css";
 @import "~assets/css/ele-style/writeBlog-select.css";
+@import "~assets/css/ele-style/writeBlog-upload.css";
 
 .writeBlog {
   position: absolute;
@@ -220,7 +302,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  margin: 30px 0;
+  margin: 20px 0;
   padding: 0 20px;
 }
 
@@ -254,7 +336,9 @@ export default {
 
 .blogTitleContent,
 .blogTags,
-.blogCategory {
+.blogCategory,
+.blogAbstractContent,
+.blogUploadContent {
   display: flex;
   flex-wrap: wrap;
   align-content: center;
@@ -264,22 +348,30 @@ export default {
 
 .hintText {
   display: block;
-  padding: 20px 20px;
+  padding: 10px 20px;
   font-size: 22px;
   text-align: start;
   transition: all ease-out 0.4s;
 }
 
-.blogTitleInput {
+.blogTitleInput,
+.blogAbstractInput {
   padding: 0 10px;
   width: 85%;
+  min-width: 320px;
+  max-width: 320px;
   height: 40px;
   border: none;
   border-radius: 10px;
   outline: none;
 }
 
-.blogTitleInput:focus + .hintText {
+.blogAbstractInput {
+  padding: 10px;
+}
+
+.blogTitleInput:focus + .hintText,
+.blogAbstractInput:focus + .hintText {
   transform: translateX(105px);
 }
 

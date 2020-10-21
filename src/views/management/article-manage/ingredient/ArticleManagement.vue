@@ -80,16 +80,20 @@ export default {
     basedRendering() {
       request({
         method: "get",
-        url: `/blog/category/query?user_id=${+window.localStorage.getItem("userID")}`,
+        url: `/blog/category/query?user_id=${+window.localStorage.getItem(
+          "userID"
+        )}`,
       }).then((res) => {
-        this.cate_ID = res.data.data[0].id;
-        //获取第一个分类的数据
-        request({
-          method: "get",
-          url: `/blog/query/withcategory?cate_id=${this.cate_ID}&pageNum=1&pageSize=10`,
-        }).then((res) => {
-          this.articleList = res.data.data;
-        });
+        if (res.data.data.length != 0) {
+          this.cate_ID = res.data.data[0].id;
+          //获取第一个分类的数据
+          request({
+            method: "get",
+            url: `/blog/query/withcategory?cate_id=${this.cate_ID}&pageNum=1&pageSize=10`,
+          }).then((res) => {
+            this.articleList = res.data.data;
+          });
+        }
       });
     },
     viewTheCategory() {
@@ -99,6 +103,7 @@ export default {
           method: "get",
           url: `/blog/query/withcategory?cate_id=${this.cate_ID}&pageNum=1&pageSize=10`,
         }).then((res) => {
+          console.log(res);
           this.articleList = res.data.data;
           //刷新分页器
           this.isPagination = false;
@@ -130,6 +135,7 @@ export default {
       this.openRemovePG_article(row);
     },
     editArticle(data) {
+      console.log(data);
       //跳转编辑页
       this.$store.commit("saveArticleEditData", data);
       this.$bus.$emit("editArticle");

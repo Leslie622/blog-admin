@@ -37,7 +37,7 @@ export function LoginRequest() {
   }).then((res) => {
     if (res.data.code === 200) {
       //保存用户id到本地
-      window.localStorage.setItem("userID",res.data.data.id)
+      window.localStorage.setItem("userID", res.data.data.id)
       this.$router.push({ path: '/Management' });
     } else {
       Notification({
@@ -238,6 +238,7 @@ export function openAddPG() {
             description: document.querySelector(".categoryDescriptionInput").value,
           },
         }).then((res) => {
+          console.log(res);
           //添加成功后更新数据
           if (res.data.code === 200) {
             request({
@@ -250,6 +251,11 @@ export function openAddPG() {
                 type: "success"
               })
             });
+          } else {
+            Message({
+              message: "添加失败",
+              type: "error"
+            })
           }
         });
         done();

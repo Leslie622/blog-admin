@@ -4,6 +4,9 @@ import router from "./router/index"
 
 Vue.config.productionTip = false;
 
+//代码高亮
+import 'highlight.js/styles/googlecode.css'
+
 // 引入elementUI
 import ElementUI from "element-ui"
 import 'element-ui/lib/theme-chalk/index.css';
