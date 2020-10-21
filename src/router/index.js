@@ -39,8 +39,8 @@ const routes = [
     ],
   },
   {
-    path:"/Detail",
-    component:Detail,
+    path: "/Detail",
+    component: Detail,
     meta: { title: "文章详情" }
   }
 ]

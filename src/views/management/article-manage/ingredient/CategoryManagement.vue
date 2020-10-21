@@ -22,9 +22,7 @@
       </el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button size="mini" @click="redact(scope.$index, scope.row)"
-            >编辑</el-button
-          >
+          <el-button size="mini" @click="redact(scope.row)">编辑</el-button>
           <el-button
             size="mini"
             type="danger"
@@ -75,8 +73,8 @@ export default {
       });
     },
     //编辑
-    redact(index, row) {
-      this.openRedactPG(index, row);
+    redact(row) {
+      this.openRedactPG(row);
     },
     //删除
     deleteRow(index, rows) {

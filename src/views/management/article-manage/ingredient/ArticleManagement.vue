@@ -134,11 +134,10 @@ export default {
     deleteArticle(row) {
       this.openRemovePG_article(row);
     },
+    //编辑文章
     editArticle(data) {
-      console.log(data);
-      //跳转编辑页
+      //跳转编辑页-将要编辑的数据保存到vuex
       this.$store.commit("saveArticleEditData", data);
-      this.$bus.$emit("editArticle");
       this.$router.push({
         path: "/WriteBlog",
       });

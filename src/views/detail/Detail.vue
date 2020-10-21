@@ -7,9 +7,13 @@
       <div class="toc"></div>
       <div class="content">
         <mavon-editor
-          v-html="blogContentHTML"
-          codeStyle="tomorrow"
+          :value="blogContent"
+          :toolbarsFlag="false"
+          :subfield="false"
           :boxShadow="false"
+          :editable="false"
+          defaultOpen="preview"
+          codeStyle="paraiso-light"
           class="articleContent"
         />
       </div>
@@ -24,7 +28,7 @@ export default {
   name: "",
   data() {
     return {
-      blogContentHTML: null,
+      blogContent: "",
     };
   },
   beforeCreate() {
@@ -35,7 +39,7 @@ export default {
       method: "get",
       url: `/blog/detail?id=${this.$route.query.id}`,
     }).then((res) => {
-      this.blogContentHTML = res.data.data.content;
+      this.blogContent = res.data.data.content;
     });
   },
   updated() {
@@ -58,18 +62,18 @@ export default {
 
 .toc {
   position: fixed;
-  width: 400px;
-  height: 100vh;
   margin-left: 20px;
   padding: 10px;
+  width: 400px;
+  height: 100vh;
   border-right: 1px solid rgb(204, 204, 204);
   overflow: hidden;
   overflow-y: scroll;
 }
 
 .content {
-  width: 60%;
   margin-left: 550px;
+  width: 60%;
   font-family: 幼圆;
 }
 

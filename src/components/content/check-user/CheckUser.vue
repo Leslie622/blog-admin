@@ -26,9 +26,7 @@
                 <br />
                 <br />请返回
               </div>
-              <div class="back checkUserButton">
-                Back
-              </div>
+              <div class="back checkUserButton">Back</div>
             </div>
           </div>
         </div>

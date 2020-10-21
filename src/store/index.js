@@ -5,13 +5,13 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     user_id: "",
-    articleEdit_data:""
+    articleEdit_data: ""
   },
   mutations: {
     saveUserId(state, foo) {
       state.user_id = foo
     },
-    saveArticleEditData(state,foo){
+    saveArticleEditData(state, foo) {
       state.articleEdit_data = foo
     }
   }

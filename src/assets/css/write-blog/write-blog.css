@@ -1,0 +1,100 @@
+.writeBlog {
+  position: absolute;
+  display: flex;
+  top: 85px;
+  right: 10px;
+  left: 10px;
+  bottom: 10px;
+  min-width: 1800px;
+}
+
+.mavonEditor {
+  flex: 8;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.sidebar {
+  flex: 2;
+  margin-left: 10px;
+  border-radius: 20px;
+  font-family: 幼圆;
+  text-align: center;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .2);
+  background-color: rgba(255, 255, 255, .4);
+}
+
+.operation {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 20px 0;
+  padding: 0 20px;
+}
+
+.operation .btn {
+  width: 40%;
+  height: 50px;
+  border-radius: 10px;
+  font-size: 16px;
+  line-height: 50px;
+  box-shadow: 3px 3px rgb(161, 160, 160);
+  cursor: pointer;
+}
+
+.operation .btn:active {
+  box-shadow: none;
+  transform: translate(3px, 3px);
+}
+
+.save {
+  background-color: rgba(220, 220, 220, .712);
+}
+
+.issue {
+  background-image: url("~assets/img/bg/adminTabActiveBg.png");
+  transition: background .2s;
+}
+
+.issue:hover {
+  background: url("~assets/img/bg/adminTabActiveBg.png") 100% 100% repeat;
+}
+
+.blogTitleContent, .blogTags, .blogCategory, .blogAbstractContent, .blogUploadContent {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  flex-direction: column-reverse;
+  padding: 10px 0;
+}
+
+.hintText {
+  display: block;
+  padding: 10px 20px;
+  font-size: 22px;
+  text-align: start;
+  transition: all ease-out .4s;
+}
+
+.blogTitleInput, .blogAbstractInput {
+  padding: 0 10px;
+  width: 85%;
+  min-width: 320px;
+  max-width: 320px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+}
+
+.blogAbstractInput {
+  padding: 10px;
+}
+
+.blogTitleInput:focus+.hintText, .blogAbstractInput:focus+.hintText {
+  transform: translateX(105px);
+}
+
+.isTaghintTextAnimation, .isCategoryhintTextAnimation {
+  transform: translateX(105px);
+}

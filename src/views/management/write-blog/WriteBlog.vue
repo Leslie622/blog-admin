@@ -6,7 +6,7 @@
     >
       <mavon-editor
         v-model="blogData.blogContent"
-        class="mavonEditor articleContent markdown-body"
+        class="mavonEditor articleContent"
         previewBackground="fff"
         codeStyle="atelier-cave-dark"
         ref="md"
@@ -134,50 +134,27 @@ export default {
       },
       category: null,
       tags: [
-        {
-          value: "HTML",
-        },
-        {
-          value: "CSS",
-        },
-        {
-          value: "JavaScript",
-        },
-        {
-          value: "Vue",
-        },
-        {
-          value: "Webpack",
-        },
+        { value: "HTML" },
+        { value: "CSS" },
+        { value: "JavaScript" },
+        { value: "Vue" },
+        { value: "Webpack" },
       ],
       isTaghintTextAnimation: false,
       isCategoryhintTextAnimation: false,
     };
   },
   created() {
-    //请求分类数据
-    request({
-      url: `/blog/category/query?user_id=${+window.localStorage.getItem(
-        "userID"
-      )}`,
-    }).then((res) => {
-      this.category = res.data.data;
-    });
-    if (this.$store.state.articleEdit_data) {
-      this.blogData.blogContent = this.$store.state.articleEdit_data.content;
-      this.blogData.blogTitle = this.$store.state.articleEdit_data.title;
-      this.blogData.blogID = this.$store.state.articleEdit_data.id;
-      this.blogData.blogCategoryID = this.$store.state.articleEdit_data.cate_id;
-      this.blogData.blogTags = this.$store.state.articleEdit_data.tag;
-      this.blogData.blogAbstract = this.$store.state.articleEdit_data.abs;
-    }
+    //请求分类数据并获取待编辑数据
+    this.requestCategoryData();
   },
+  // 销毁时清空待编辑的数据
   beforeDestroy() {
     this.$store.state.articleEdit_data = null;
   },
   methods: {
+    // 发布文章
     issue() {
-      //发送文章数据到后端
       request({
         method: "post",
         url: "/blog/create",
@@ -199,6 +176,7 @@ export default {
         }
       });
     },
+    // 编辑文章
     modify() {
       request({
         method: "post",
@@ -221,6 +199,25 @@ export default {
         }
       });
     },
+    // 请求分类数据并获取待编辑数据
+    requestCategoryData() {
+      request({
+        url: `/blog/category/query?user_id=${+window.localStorage.getItem(
+          "userID"
+        )}`,
+      }).then((res) => {
+        this.category = res.data.data;
+      });
+      if (this.$store.state.articleEdit_data) {
+        this.blogData.blogContent = this.$store.state.articleEdit_data.content;
+        this.blogData.blogTitle = this.$store.state.articleEdit_data.title;
+        this.blogData.blogID = this.$store.state.articleEdit_data.id;
+        this.blogData.blogCategoryID = this.$store.state.articleEdit_data.cate_id;
+        this.blogData.blogTags = this.$store.state.articleEdit_data.tag;
+        this.blogData.blogAbstract = this.$store.state.articleEdit_data.abs;
+      }
+    },
+    // 上传图片-接口
     MultiFileUpload(oData) {
       console.log(oData);
       request({
@@ -238,6 +235,7 @@ export default {
           });
         });
     },
+    // 上传图片
     uploadCover(event) {
       let e = window.event || event;
       const oFile = e.target.files[0];
@@ -271,112 +269,5 @@ export default {
 @import "~assets/css/mavon-editor-style/mavon-editor.css";
 @import "~assets/css/ele-style/writeBlog-select.css";
 @import "~assets/css/ele-style/writeBlog-upload.css";
-
-.writeBlog {
-  position: absolute;
-  display: flex;
-  top: 85px;
-  right: 10px;
-  left: 10px;
-  bottom: 10px;
-  min-width: 1800px;
-}
-
-.mavonEditor {
-  flex: 8;
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.sidebar {
-  flex: 2;
-  margin-left: 10px;
-  border-radius: 20px;
-  font-family: 幼圆;
-  text-align: center;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
-  background-color: rgba(255, 255, 255, 0.4);
-}
-
-.operation {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  margin: 20px 0;
-  padding: 0 20px;
-}
-
-.operation .btn {
-  width: 40%;
-  height: 50px;
-  border-radius: 10px;
-  font-size: 16px;
-  line-height: 50px;
-  box-shadow: 3px 3px rgb(161, 160, 160);
-  cursor: pointer;
-}
-
-.operation .btn:active {
-  box-shadow: none;
-  transform: translate(3px, 3px);
-}
-
-.save {
-  background-color: rgba(220, 220, 220, 0.712);
-}
-
-.issue {
-  background-image: url("~assets/img/bg/adminTabActiveBg.png");
-  transition: background 0.2s;
-}
-
-.issue:hover {
-  background: url("~assets/img/bg/adminTabActiveBg.png") 100% 100% repeat;
-}
-
-.blogTitleContent,
-.blogTags,
-.blogCategory,
-.blogAbstractContent,
-.blogUploadContent {
-  display: flex;
-  flex-wrap: wrap;
-  align-content: center;
-  flex-direction: column-reverse;
-  padding: 10px 0;
-}
-
-.hintText {
-  display: block;
-  padding: 10px 20px;
-  font-size: 22px;
-  text-align: start;
-  transition: all ease-out 0.4s;
-}
-
-.blogTitleInput,
-.blogAbstractInput {
-  padding: 0 10px;
-  width: 85%;
-  min-width: 320px;
-  max-width: 320px;
-  height: 40px;
-  border: none;
-  border-radius: 10px;
-  outline: none;
-}
-
-.blogAbstractInput {
-  padding: 10px;
-}
-
-.blogTitleInput:focus + .hintText,
-.blogAbstractInput:focus + .hintText {
-  transform: translateX(105px);
-}
-
-.isTaghintTextAnimation,
-.isCategoryhintTextAnimation {
-  transform: translateX(105px);
-}
+@import "../../../assets/css/write-blog/write-blog.css";
 </style>

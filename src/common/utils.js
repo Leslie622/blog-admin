@@ -25,7 +25,7 @@ export function deepClone(obj) {
   return newObj
 }
 
-
+//登录请求
 export function LoginRequest() {
   request({
     method: "post",
@@ -36,6 +36,10 @@ export function LoginRequest() {
     },
   }).then((res) => {
     if (res.data.code === 200) {
+      Message({
+        message: "登录成功",
+        type: "success"
+      })
       //保存用户id到本地
       window.localStorage.setItem("userID", res.data.data.id)
       this.$router.push({ path: '/Management' });
@@ -44,171 +48,13 @@ export function LoginRequest() {
         type: "error",
         title: "输入有误",
         message: "您输入的账号或密码有错误",
-        duration: 3000,
       });
     }
   });
 }
 
-//文章标签动态背景
-export function DynamicBG(blogTag) {
-  switch (blogTag) {
-    case "HTML":
-      return {
-        backgroundColor: "rgb(228, 79, 38)",
-      };
-    case "CSS":
-      return {
-        backgroundColor: " rgb(21, 114, 182)",
-      };
-    case "JavaScript":
-      return {
-        backgroundColor: "rgb(255, 192, 34)",
-      };
-    case "Vue":
-      return {
-        backgroundColor: "rgb(65, 184, 131)",
-      };
-    case "Webpack":
-      return {
-        backgroundColor: "rgb(85,167,221)",
-      };
-  }
-}
 
-//弹框
-export function openRemovePG(index, rows) {
-  this.$confirm("此操作将删除该分类, 是否删除?", "提示", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
-    type: "warning",
-    beforeClose: (action, instance, done) => {
-      if (action === "confirm") {
-        //确定后，删除数据
-        request({
-          method: "post",
-          url: "/blog/category/remove",
-          data: {
-            id: rows[index].id
-          }
-        }).then((res) => {
-          //删除成功后更新数据
-          if (res.data.code === 200) {
-            request({
-              method: "get",
-              url: "/blog/category/query",
-            }).then((res) => {
-              this.tableData = res.data.data;
-              Message({
-                message: "删除成功",
-                type: "success"
-              })
-            });
-          }
-        });
-        done();
-      } else {
-        done();
-      }
-    },
-  }).catch(() => {
-  });;
-}
-
-export function openRemovePG_article(row) {
-  this.$confirm("此操作将删除该文章, 是否删除?", "提示", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
-    type: "warning",
-    beforeClose: (action, instance, done) => {
-      if (action === "confirm") {
-        //确定后，删除数据
-        request({
-          method: "post",
-          url: "/blog/delete",
-          data: {
-            id: row.id,
-          },
-        }).then(() => {
-          console.log(row);
-          request({
-            method: "get",
-            url: `/blog/query/withcategory?cate_id=${row.cate_id}&pageNum=1&pageSize=10`,
-          }).then((res) => {
-            this.articleList = res.data.data;
-            //刷新分页器
-            this.isPagination = false;
-            this.$nextTick(() => {
-              this.isPagination = true;
-            });
-            Message({
-              message: "删除成功",
-              type: "success"
-            })
-          });
-        });
-        done();
-      } else {
-        done();
-      }
-    },
-  }).catch(() => {
-  });;
-}
-
-export function openRedactPG(index, row) {
-  const h = this.$createElement;
-  this.$msgbox({
-    title: "分类编辑",
-    message: h("div", null, [
-      h("p", { class: "categoryName" }, "请输入分类名称:"),
-      h("input", {
-        class: "categoryNameInput", attrs: {
-          maxlength: 10,
-        }, key: '1'
-      }),
-      h("p", { class: "categoryDescription" }, "请输入分类描述:"),
-      h("textarea", { class: "categoryDescriptionInput" }),
-    ]),
-    showCancelButton: true,
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
-    beforeClose: (action, instance, done) => {
-      if (action === "confirm") {
-        //确定后，编辑内容
-        request({
-          method: "post",
-          url: "/blog/category/update",
-          data: {
-            id: row.id,
-            user_id: +window.localStorage.getItem("userID"),
-            name: document.querySelector(".categoryNameInput").value,
-            description: document.querySelector(".categoryDescriptionInput").value,
-          }
-        }).then((res) => {
-          //添加成功后更新数据
-          if (res.data.code === 200) {
-            request({
-              method: "get",
-              url: "/blog/category/query",
-            }).then((res) => {
-              this.tableData = res.data.data;
-              Message({
-                message: "编辑成功",
-                type: "success"
-              })
-            });
-          }
-        });
-        done();
-      } else {
-        done();
-      }
-    },
-  }).catch(() => {
-  });
-}
-
+//添加分类-弹窗
 export function openAddPG() {
   const h = this.$createElement;
   this.$msgbox({
@@ -241,15 +87,15 @@ export function openAddPG() {
           console.log(res);
           //添加成功后更新数据
           if (res.data.code === 200) {
+            Message({
+              message: "添加成功",
+              type: "success"
+            })
             request({
               method: "get",
               url: "/blog/category/query",
             }).then((res) => {
               this.tableData = res.data.data;
-              Message({
-                message: "添加成功",
-                type: "success"
-              })
             });
           } else {
             Message({
@@ -266,3 +112,141 @@ export function openAddPG() {
   }).catch(() => {
   });;
 }
+
+//删除分类-弹框
+export function openRemovePG(index, rows) {
+  this.$confirm("此操作将删除该分类, 是否删除?", "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+    beforeClose: (action, instance, done) => {
+      if (action === "confirm") {
+        //确定后，删除数据
+        request({
+          method: "post",
+          url: "/blog/category/remove",
+          data: {
+            id: rows[index].id
+          }
+        }).then((res) => {
+          //删除成功后更新数据
+          if (res.data.code === 200) {
+            Message({
+              message: "删除成功",
+              type: "success"
+            })
+            request({
+              method: "get",
+              url: "/blog/category/query",
+            }).then((res) => {
+              this.tableData = res.data.data;
+            });
+          }
+        });
+        done();
+      } else {
+        done();
+      }
+    },
+  }).catch(() => {
+  });;
+}
+
+//编辑分类-弹窗
+export function openRedactPG(row) {
+  const h = this.$createElement;
+  this.$msgbox({
+    title: "分类编辑",
+    message: h("div", null, [
+      h("p", { class: "categoryName" }, "请输入分类名称:"),
+      h("input", {
+        class: "categoryNameInput", attrs: {
+          maxlength: 10,
+        }, key: '1'
+      }),
+      h("p", { class: "categoryDescription" }, "请输入分类描述:"),
+      h("textarea", { class: "categoryDescriptionInput" }),
+    ]),
+    showCancelButton: true,
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    beforeClose: (action, instance, done) => {
+      if (action === "confirm") {
+        //确定后，编辑内容
+        request({
+          method: "post",
+          url: "/blog/category/update",
+          data: {
+            id: row.id,
+            user_id: +window.localStorage.getItem("userID"),
+            name: document.querySelector(".categoryNameInput").value,
+            description: document.querySelector(".categoryDescriptionInput").value,
+          }
+        }).then((res) => {
+          //添加成功后更新数据
+          if (res.data.code === 200) {
+            Message({
+              message: "编辑成功",
+              type: "success"
+            })
+            request({
+              method: "get",
+              url: "/blog/category/query",
+            }).then((res) => {
+              this.tableData = res.data.data;
+            });
+          }
+        });
+        done();
+      } else {
+        done();
+      }
+    },
+  }).catch(() => {
+  });
+}
+
+//删除文章-弹窗
+export function openRemovePG_article(row) {
+  this.$confirm("此操作将删除该文章, 是否删除?", "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+    beforeClose: (action, instance, done) => {
+      if (action === "confirm") {
+        //确定后，删除数据
+        request({
+          method: "post",
+          url: "/blog/delete",
+          data: {
+            id: row.id,
+          },
+        }).then(() => {
+          if (res.data.code === 200) {
+            Message({
+              message: "删除成功",
+              type: "success"
+            })
+            //成功后更新数据
+            request({
+              method: "get",
+              url: `/blog/query/withcategory?cate_id=${row.cate_id}&pageNum=1&pageSize=10`,
+            }).then((res) => {
+              this.articleList = res.data.data;
+              //刷新分页器
+              this.isPagination = false;
+              this.$nextTick(() => {
+                this.isPagination = true;
+              });
+            });
+          }
+        });
+        done();
+      } else {
+        done();
+      }
+    },
+  }).catch(() => {
+  });;
+}
+
