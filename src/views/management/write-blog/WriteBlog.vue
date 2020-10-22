@@ -88,25 +88,23 @@
           <div class="hintText">描述</div>
         </div>
         <div class="blogUploadContent">
-          <!-- <el-upload
+          <el-upload
             class="upload-cover"
             drag
+            name="file"
             action="https://4xiaer.com:8001/land/file/uploads"
-            :on-success="uploadCover"
+            :before-upload="uploadCover"
+            :on-remove="removeCover"
+            list-type="picture"
           >
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">
               将文件拖到此处，或<em>点击上传</em>
             </div>
             <div class="el-upload__tip" slot="tip">
-              只能上传jpg/png/gif/jpeg文件，且不超过10MB
+              只能上传 png / jpg / gif / jpeg 文件，且不超过10M
             </div>
-          </el-upload> -->
-          <input
-            type="file"
-            accept=".png, .jpg, .gif, .jpeg"
-            @change="uploadCover"
-          />
+          </el-upload>
           <div class="hintText">封面图片</div>
         </div>
       </div>
@@ -132,6 +130,7 @@ export default {
         blogAbstract: "",
         blogCover: "",
       },
+      file: [],
       category: null,
       tags: [
         { value: "HTML" },
@@ -151,6 +150,7 @@ export default {
   // 销毁时清空待编辑的数据
   beforeDestroy() {
     this.$store.state.articleEdit_data = null;
+    this.file = [];
   },
   methods: {
     // 发布文章
@@ -215,17 +215,24 @@ export default {
         this.blogData.blogCategoryID = this.$store.state.articleEdit_data.cate_id;
         this.blogData.blogTags = this.$store.state.articleEdit_data.tag;
         this.blogData.blogAbstract = this.$store.state.articleEdit_data.abs;
+        this.blogData.blogCover = this.$store.state.articleEdit_data.cover;
+        this.file = [
+          {
+            name: this.$store.state.articleEdit_data.cover,
+            url: this.$imgPrefix + this.$store.state.articleEdit_data.cover,
+          },
+        ];
       }
     },
     // 上传图片-接口
     MultiFileUpload(oData) {
-      console.log(oData);
       request({
         method: "post",
         url: "https://4xiaer.com:8001/land/file/uploads",
         data: oData,
       })
         .then((res) => {
+          console.log(res);
           this.blogData.blogCover = res.data.data[0];
         })
         .catch((err) => {
@@ -235,12 +242,10 @@ export default {
           });
         });
     },
-    // 上传图片
-    uploadCover(event) {
-      let e = window.event || event;
-      const oFile = e.target.files[0];
+    // 上传博客封面
+    uploadCover(file) {
       const imgMaxSize = 1024 * 1024 * 10;
-      const fileType = oFile.name.substr(oFile.name.lastIndexOf(".") + 1);
+      const fileType = file.name.substr(file.name.lastIndexOf(".") + 1);
       if (["jpeg", "jpg", "gif", "png"].indexOf(fileType) < 0) {
         Message({
           message: "只支持.jpeg .jpg  .gif .png格式文件",
@@ -248,17 +253,20 @@ export default {
         });
         return;
       }
-      if (oFile.size > imgMaxSize) {
+      if (file.size > imgMaxSize) {
         Message({
           message: "文件最大为10MB",
           type: "error",
         });
         return;
       }
+      console.log(imgMaxSize, fileType);
       let oData = new FormData();
-      oData.append("files[]", oFile);
-      //调用上传接口
-      this.MultiFileUpload(oData);
+      oData.append("file[]", file);
+      this.MultiFileUpload(file);
+    },
+    removeCover() {
+      this.blogData.blogCover = "";
     },
   },
 };
