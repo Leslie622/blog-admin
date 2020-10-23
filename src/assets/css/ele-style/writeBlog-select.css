@@ -4,14 +4,23 @@
   overflow: hidden;
 }
 
+.el-select .el-select__tags>span {
+  display: inline-block;
+}
+
+.el-select__tags {
+  transform: translateY(-30%);
+  white-space: nowrap;
+}
+
 .selectTag.el-select .el-input input {
   min-height: 40px;
   border: none;
 }
 
 .selectTag.el-select .el-select__input {
-  height: 100%;
   width: 100%;
+  height: 100%;
 }
 
 .el-select-dropdown.is-multiple .el-select-dropdown__item.selected {

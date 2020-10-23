@@ -88,24 +88,22 @@
           <div class="hintText">描述</div>
         </div>
         <div class="blogUploadContent">
+          <div class="hintText coverText">封面图片</div>
           <el-upload
             class="upload-cover"
-            drag
             name="file"
             action="https://4xiaer.com:8001/land/file/uploads"
             :before-upload="uploadCover"
             :on-remove="removeCover"
-            list-type="picture"
+            :file-list="file"
+            list-type="picture-card"
           >
             <i class="el-icon-upload"></i>
-            <div class="el-upload__text">
-              将文件拖到此处，或<em>点击上传</em>
-            </div>
+            <div class="el-upload__text">拖拽/点击上传文件</div>
             <div class="el-upload__tip" slot="tip">
               只能上传 png / jpg / gif / jpeg 文件，且不超过10M
             </div>
           </el-upload>
-          <div class="hintText">封面图片</div>
         </div>
       </div>
     </transition>
@@ -216,12 +214,12 @@ export default {
         this.blogData.blogTags = this.$store.state.articleEdit_data.tag;
         this.blogData.blogAbstract = this.$store.state.articleEdit_data.abs;
         this.blogData.blogCover = this.$store.state.articleEdit_data.cover;
-        this.file = [
-          {
+        if (this.$store.state.articleEdit_data.cover) {
+          this.file.push({
             name: this.$store.state.articleEdit_data.cover,
             url: this.$imgPrefix + this.$store.state.articleEdit_data.cover,
-          },
-        ];
+          });
+        }
       }
     },
     // 上传图片-接口
@@ -263,7 +261,7 @@ export default {
       console.log(imgMaxSize, fileType);
       let oData = new FormData();
       oData.append("file[]", file);
-      this.MultiFileUpload(file);
+      this.MultiFileUpload(oData);
     },
     removeCover() {
       this.blogData.blogCover = "";
@@ -277,5 +275,5 @@ export default {
 @import "~assets/css/mavon-editor-style/mavon-editor.css";
 @import "~assets/css/ele-style/writeBlog-select.css";
 @import "~assets/css/ele-style/writeBlog-upload.css";
-@import "../../../assets/css/write-blog/write-blog.css";
+@import "~assets/css/write-blog/write-blog.css";
 </style>

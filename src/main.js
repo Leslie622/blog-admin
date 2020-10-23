@@ -23,6 +23,9 @@ Vue.use(mavonEditor)
 // 事件总线
 Vue.prototype.$bus = new Vue()
 
+//图片地址
+Vue.prototype.$imgPrefix = 'https://mdw.oss-cn-hangzhou.aliyuncs.com/';
+
 //vuex
 import store from "./store/index"
 

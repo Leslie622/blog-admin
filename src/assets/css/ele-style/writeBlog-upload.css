@@ -3,6 +3,12 @@
   height: 130px;
 }
 
-.upload-cover .el-icon-upload {
-  margin: 20px 0;
+.el-upload--picture-card {
+  font-size: 12px;
+  line-height: 20px;
+  color: rgba(0, 0, 0, .5);
+}
+
+.el-icon-upload {
+  margin-top: 55px;
 }

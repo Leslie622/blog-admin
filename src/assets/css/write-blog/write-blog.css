@@ -60,7 +60,7 @@
   background: url("~assets/img/bg/adminTabActiveBg.png") 100% 100% repeat;
 }
 
-.blogTitleContent, .blogTags, .blogCategory, .blogAbstractContent, .blogUploadContent {
+.blogTitleContent, .blogTags, .blogCategory, .blogAbstractContent{
   display: flex;
   flex-wrap: wrap;
   align-content: center;
@@ -76,6 +76,10 @@
   transition: all ease-out .4s;
 }
 
+.coverText{
+  text-align: center;
+}
+
 .blogTitleInput, .blogAbstractInput {
   padding: 0 10px;
   width: 85%;
@@ -89,6 +93,7 @@
 
 .blogAbstractInput {
   padding: 10px;
+  height: 100px;
 }
 
 .blogTitleInput:focus+.hintText, .blogAbstractInput:focus+.hintText {
