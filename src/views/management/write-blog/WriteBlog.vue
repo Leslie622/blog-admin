@@ -232,6 +232,10 @@ export default {
         .then((res) => {
           console.log(res);
           this.blogData.blogCover = res.data.data[0];
+          Message({
+            message: "上传成功",
+            type: "success",
+          });
         })
         .catch((err) => {
           Message({
